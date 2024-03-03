@@ -25,11 +25,90 @@ function readNumbersFromFile(filename) {
   });
 }
 
-// Приклад використання
+function findMax(numbers) {
+  let max = numbers[0];
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] > max) {
+      max = numbers[i];
+    }
+  }
+  return max;
+}
+
+function findMin(numbers) {
+  let min = numbers[0];
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] < min) {
+      min = numbers[i];
+    }
+  }
+  return min;
+}
+
+function findMedian(numbers) {
+  const sorted = numbers.sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  if (sorted.length % 2 === 0) {
+    return (sorted[mid - 1] + sorted[mid]) / 2;
+  } else {
+    return sorted[mid];
+  }
+}
+
+function findMean(numbers) {
+  const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+  return sum / numbers.length;
+}
+
+function findIncreasingSequence(numbers) {
+  let maxSequence = [];
+  let currentSequence = [];
+  for (let i = 0; i < numbers.length; i++) {
+    if (numbers[i] < numbers[i + 1]) {
+      currentSequence.push(numbers[i]);
+    } else {
+      currentSequence.push(numbers[i]);
+      if (currentSequence.length > maxSequence.length) {
+        maxSequence = currentSequence;
+      }
+      currentSequence = [];
+    }
+  }
+  return maxSequence;
+}
+
+function findDecreasingSequence(numbers) {
+  let maxSequence = [];
+  let currentSequence = [];
+  for (let i = 0; i < numbers.length; i++) {
+    if (numbers[i] > numbers[i + 1]) {
+      currentSequence.push(numbers[i]);
+    } else {
+      currentSequence.push(numbers[i]);
+      if (currentSequence.length > maxSequence.length) {
+        maxSequence = currentSequence;
+      }
+      currentSequence = [];
+    }
+  }
+  return maxSequence;
+}
+
 readNumbersFromFile("10m.txt.bz2")
   .then((numbers) => {
-    console.log("Successfully read numbers from file:", numbers);
+    console.log("Максимальне число:", findMax(numbers));
+    console.log("Мінімальне число:", findMin(numbers));
+    console.log("Медіана:", findMedian(numbers));
+    console.log("Середнє арифметичне значення:", findMean(numbers));
+    console.log(
+      "Найбільша зростаюча послідовність:",
+      findIncreasingSequence(numbers)
+    );
+    console.log(
+      "Найбільша спадна послідовність:",
+      findDecreasingSequence(numbers)
+    );
   })
   .catch((err) => {
-    console.error("Error reading numbers from file:", err);
+    console.error("Помилка при зчитуванні чисел з файлу:", err);
   });
